@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">F1UpToDate</string>
+    <string name="title">Races</string>
+    <string name="getraces">Search Races</string>
+</resources>
