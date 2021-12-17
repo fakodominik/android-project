@@ -7,14 +7,15 @@ import hu.unideb.inf.f1uptodate.model.MRData
 import hu.unideb.inf.f1uptodate.model.ResponseData
 import hu.unideb.inf.f1uptodate.repository.Repository
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class RacesViewModel(private val repository: Repository):ViewModel() {
 
-    val myResponse: MutableLiveData<ResponseData> = MutableLiveData()
+    val myResponse: MutableLiveData<Response<ResponseData>> = MutableLiveData()
 
-    fun getRace() {
+    fun getRace(year : Int) {
         viewModelScope.launch {
-            val response = repository.getRace()
+            val response = repository.getRace(year)
             myResponse.value = response
         }
     }
