@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_races"
+            android:icon="@drawable/ic_flag"
+            android:title="@string/races" />
+        <item
+            android:id="@+id/nav_championships"
+            android:icon="@drawable/ic_helmet"
+            android:title="@string/championships" />
+        <item
+            android:id="@+id/nav_constructors"
+            android:icon="@drawable/ic_trophy"
+            android:title="@string/constructor_titles" />
+    </group>
+
+    <item android:title="@string/miscellaneous">
+        <menu>
+            <item android:title="@string/help"
+                android:icon="@drawable/ic_help"/>
+            <item android:title="@string/about"
+                android:icon="@drawable/ic_about"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/legal">
+        <menu>
+            <item android:title="@string/official_f1_website"
+                android:icon="@drawable/ic_web"/>
+        </menu>
+    </item>
+
+</menu>

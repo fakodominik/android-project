@@ -1,4 +1,4 @@
-package hu.unideb.inf.f1uptodate.view
+package hu.unideb.inf.f1uptodate.fragments.views
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

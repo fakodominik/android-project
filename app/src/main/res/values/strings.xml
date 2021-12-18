@@ -1,5 +1,22 @@
 <resources>
-    <string name="app_name">F1UpToDate</string>
-    <string name="title">Races</string>
+    <string name="app_name">F1 Data Collection</string>
+    <string name="titleRace">Race results</string>
     <string name="getraces">Search Races</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="races">Races</string>
+    <string name="championships">Championships</string>
+    <string name="constructor_titles">Constructor titles</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="navigation_menu">Navigation menu</string>
+    <string name="app_name_long">Formula 1 Data Collection</string>
+    <string name="official_f1_website">Official F1 website</string>
+    <string name="legal">Legal</string>
+    <string name="choose_year">Choose year</string>
+    <string name="welcome_to_the_f1_data_app">Welcome to The F1 data app</string>
+    <string name="details">If you are a formula one fan, or you just want to know
+         the previous results, this app will suits you perfectly. Swipe right to access the navigation menu and to
+    get information of how to use this app. </string>
 </resources>
