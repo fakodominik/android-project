@@ -7,17 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import hu.unideb.inf.f1uptodate.R
-import hu.unideb.inf.f1uptodate.databinding.FragmentRaceBinding
+import hu.unideb.inf.f1uptodate.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        savedInstanceState: Bundle?): View {
 
-        val binding: FragmentRaceBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_race, container, false
+        val binding: FragmentWelcomeBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_welcome, container, false
         )
 
         return binding.root

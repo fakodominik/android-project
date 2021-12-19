@@ -3,10 +3,10 @@ package hu.unideb.inf.f1uptodate
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import hu.unideb.inf.f1uptodate.fragments.RacesFragment
 import hu.unideb.inf.f1uptodate.fragments.WelcomeFragment
@@ -19,6 +19,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setupDrawer()
+        initializeFragment()
+
+    }
+
+    private fun initializeFragment() {
+        supportFragmentManager.beginTransaction().replace(R.id.frame_layout,WelcomeFragment()).commit()
+    }
+
+    private fun setupDrawer() {
         val drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
         val navView : NavigationView = findViewById(R.id.nav_view)
 
@@ -28,14 +38,19 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val fragment = supportFragmentManager.beginTransaction()
-
         navView.setNavigationItemSelectedListener {
+            drawerLayout.closeDrawers()
             when(it.itemId) {
-               //TODO: Do navigation
+                R.id.nav_races -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,RacesFragment()).commit()
+                }
+                R.id.nav_home -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,WelcomeFragment()).commit()
+                }
             }
             true
         }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

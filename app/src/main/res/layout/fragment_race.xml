@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.android.navigation.RacesFragment">
+    tools:context="hu.unideb.inf.f1uptodate.fragments.RacesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:id="@+id/btnGetRaces"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/getraces"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/rvListOfRaces"
@@ -32,12 +32,25 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Spinner
-            android:id="@+id/spinnerYears"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/year"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnGetRaces"
+            app:layout_constraintEnd_toStartOf="@+id/spinnerYears" />
+
+        <Spinner
+            android:id="@+id/spinnerYears"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/btnGetRaces"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.618"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
