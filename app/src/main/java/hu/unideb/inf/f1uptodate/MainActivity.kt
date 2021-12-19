@@ -8,11 +8,17 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import hu.unideb.inf.f1uptodate.fragments.AboutFragment
+import hu.unideb.inf.f1uptodate.fragments.HelpFragment
 import hu.unideb.inf.f1uptodate.fragments.RacesFragment
 import hu.unideb.inf.f1uptodate.fragments.WelcomeFragment
+import android.content.Intent
+import android.net.Uri
+
 
 class MainActivity : AppCompatActivity() {
 
+    private var F1URL : String = "https://www.formula1.com"
     private lateinit var toggle : ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +53,26 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,WelcomeFragment()).commit()
                 }
+                R.id.nav_help -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,HelpFragment()).commit()
+                }
+                R.id.nav_about -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,AboutFragment()).commit()
+                }
+                R.id.nav_site -> {
+                    openUrl(F1URL)
+                }
             }
             true
         }
 
+    }
+
+    private fun openUrl(url: String?) {
+        if (url != null) {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

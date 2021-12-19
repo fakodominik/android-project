@@ -24,16 +24,19 @@
 
     <item android:title="@string/miscellaneous">
         <menu>
-            <item android:title="@string/help"
+            <item android:id="@+id/nav_help"
+                android:title="@string/help"
                 android:icon="@drawable/ic_help"/>
-            <item android:title="@string/about"
+            <item android:id="@+id/nav_about"
+                android:title="@string/about"
                 android:icon="@drawable/ic_about"/>
         </menu>
     </item>
 
     <item android:title="@string/legal">
         <menu>
-            <item android:title="@string/official_f1_website"
+            <item android:id="@+id/nav_site"
+                android:title="@string/official_f1_website"
                 android:icon="@drawable/ic_web"/>
         </menu>
     </item>

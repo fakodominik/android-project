@@ -21,4 +21,9 @@
     get information of how to use this app. </string>
     <string name="year">Year: </string>
     <string name="home">Home</string>
+    <string name="help_desc">This page helps you use this app. Follow the instructions below</string>
+    <string name="help_description">1. To navigate, you can use the menu bar on the left side.I assume you already know that.\n\n2. Select what kind of result you want to see and press on them.\n\n3. You can select which year you want the result to be shown from.\n\n4. Finally, press search and you will see the result.\n\n\nIf anything happened to be unclear, feel free to contact the developer.</string>
+    <string name="about_desc">This app was made as a home project.\nEvery resource the app is using is under free to use license, although those cannot be used in any kind of commercial purposes.</string>
+    <string name="contacts_below">Contacts below</string>
+    <string name="contacts">Email: fdominik@mailbox.unideb.hu\n\nUni site: https://www.unideb.hu</string>
 </resources>
