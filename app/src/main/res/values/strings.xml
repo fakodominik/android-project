@@ -31,4 +31,6 @@
     <string name="championship">Championship</string>
     <string name="constructors">Constructors</string>
     <string name="delete_favourite_years">Delete Favourite Years</string>
+    <string name="championship_result">Championship result</string>
+    <string name="search_result">Search Result</string>
 </resources>

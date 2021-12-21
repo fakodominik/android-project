@@ -1,4 +1,4 @@
-package hu.unideb.inf.f1uptodate.model
+package hu.unideb.inf.f1uptodate.model.raceresult
 
 class RaceResult(
 

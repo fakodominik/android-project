@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hu.unideb.inf.f1uptodate.R
 import hu.unideb.inf.f1uptodate.adapter.RaceAdapter
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
-import hu.unideb.inf.f1uptodate.database.model.Year
 import hu.unideb.inf.f1uptodate.databinding.FavouriteFragmentBinding
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModel
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModelFactory
-import hu.unideb.inf.f1uptodate.model.RaceResult
+import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
 import hu.unideb.inf.f1uptodate.repository.Repository
 
 class FavouriteFragment : Fragment() {

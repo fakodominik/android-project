@@ -59,6 +59,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_favourites -> {
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout, FavouriteFragment()).commit()
                 }
+                R.id.nav_championships -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ChampionshipFragment()).commit()
+                }
                 R.id.nav_site -> {
                     openUrl(F1URL)
                 }

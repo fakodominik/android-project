@@ -11,46 +11,46 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.unideb.inf.f1uptodate.R
-import hu.unideb.inf.f1uptodate.adapter.RaceAdapter
-import hu.unideb.inf.f1uptodate.databinding.FragmentRaceBinding
-import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
 import hu.unideb.inf.f1uptodate.repository.Repository
-import hu.unideb.inf.f1uptodate.fragments.views.RacesViewModel
-import hu.unideb.inf.f1uptodate.fragments.views.RacesViewModelFactory
 import java.util.*
 import kotlin.collections.ArrayList
 
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import hu.unideb.inf.f1uptodate.adapter.ChampionshipAdapter
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
+import hu.unideb.inf.f1uptodate.databinding.FragmentChampionshipBinding
+import hu.unideb.inf.f1uptodate.fragments.views.ChampionshipViewModel
+import hu.unideb.inf.f1uptodate.fragments.views.ChampionshipViewModelFactory
+import hu.unideb.inf.f1uptodate.model.championship.ChampionshipResult
 
-class RacesFragment : Fragment(){
+class ChampionshipFragment : Fragment(){
 
-    private lateinit var viewModel: RacesViewModel
-    private lateinit var adapter: RaceAdapter
+    private lateinit var viewModel: ChampionshipViewModel
+    private lateinit var adapter: ChampionshipAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private var results : MutableList<RaceResult> = ArrayList()
+    private var results : MutableList<ChampionshipResult> = ArrayList()
     private var years : MutableList<Int> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding: FragmentRaceBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_race, container, false
+        val binding: FragmentChampionshipBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_championship, container, false
         )
 
         setupViewModel()
 
         binding.apply{
             setSpinnerContent(spinnerYears)
-            rvListOfRaces.setHasFixedSize(true)
+            rvListOfResult.setHasFixedSize(true)
             linearLayoutManager = LinearLayoutManager(activity)
-            rvListOfRaces.layoutManager = linearLayoutManager
-            btnGetRaces.setOnClickListener {
+            rvListOfResult.layoutManager = linearLayoutManager
+            btnGetResult.setOnClickListener {
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 getRaces(year)
-                adapter = RaceAdapter(activity?.baseContext !!,results)
-                rvListOfRaces.adapter = adapter
+                adapter = ChampionshipAdapter(activity?.baseContext !!,results)
+                rvListOfResult.adapter = adapter
             }
             btnSetFavouriteYear.setOnClickListener{
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
@@ -65,8 +65,8 @@ class RacesFragment : Fragment(){
         val repository = Repository()
         val application = requireNotNull(this.activity).application
         val dbDao = FavouriteYearDatabase.getInstance(application).favouriteYearDatabaseDao
-        val viewModelFactory = RacesViewModelFactory(repository,dbDao)
-        viewModel= ViewModelProvider(this,viewModelFactory)[RacesViewModel::class.java]
+        val viewModelFactory = ChampionshipViewModelFactory(repository,dbDao)
+        viewModel= ViewModelProvider(this,viewModelFactory)[ChampionshipViewModel::class.java]
     }
 
     private fun addToFavouriteDb(year: Int) {
@@ -92,15 +92,17 @@ class RacesFragment : Fragment(){
     }
 
     private fun getRaces(year : Int) {
-        viewModel.getRace(year)
+        viewModel.getResult(year)
         viewModel.myResponse.observe(viewLifecycleOwner,{ response ->
             if(response.isSuccessful) {
-                val raceTable = response.body()?.mrData?.raceTable
+                val standingsList = response.body()?.mrData?.standingsTable?.standingsList?.get(0)
                 results.clear()
-                for(race in raceTable?.races!!) {
-                    val result = race.results[0]
-                    val name = result.driver.givenName + " " + result.driver.familyName
-                    results.add(RaceResult(race.round,race.raceName,name,race.date))
+                for(standings in standingsList?.driverStandingsList !!) {
+                    val position = standings.position
+                    val points = standings.points
+                    val constructor = standings.constructors[0].name
+                    val name = standings.driver.givenName + " " + standings.driver.familyName
+                    results.add(ChampionshipResult(position,points,name,constructor))
                 }
 
             } else {

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabaseDao
 import hu.unideb.inf.f1uptodate.database.model.Year
-import hu.unideb.inf.f1uptodate.model.ResponseData
+import hu.unideb.inf.f1uptodate.model.raceresult.ResponseData
 import hu.unideb.inf.f1uptodate.repository.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response

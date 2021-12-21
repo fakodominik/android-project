@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.unideb.inf.f1uptodate.R
-import hu.unideb.inf.f1uptodate.model.RaceResult
+import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
 import kotlinx.android.synthetic.main.row_items.view.*
 
 class RaceAdapter(
