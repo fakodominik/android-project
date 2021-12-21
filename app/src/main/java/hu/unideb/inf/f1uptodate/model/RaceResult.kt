@@ -1,8 +1,10 @@
 package hu.unideb.inf.f1uptodate.model
 
-data class RaceResult(
+class RaceResult(
+
     val round : String,
     val name : String,
     val date : String,
-    val winner : String
+    val winner : String,
+
 )

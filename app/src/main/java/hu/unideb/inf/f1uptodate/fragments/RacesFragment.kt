@@ -21,9 +21,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 import android.widget.ArrayAdapter
-
-
-
+import android.widget.Toast
+import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
 
 class RacesFragment : Fragment(){
 
@@ -40,6 +39,8 @@ class RacesFragment : Fragment(){
             inflater, R.layout.fragment_race, container, false
         )
 
+        setupViewModel()
+
         binding.apply{
             setSpinnerContent(spinnerYears)
             rvListOfRaces.setHasFixedSize(true)
@@ -49,12 +50,28 @@ class RacesFragment : Fragment(){
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 getRaces(year)
                 adapter = RaceAdapter(activity?.baseContext !!,results)
-                adapter.notifyDataSetChanged()
                 rvListOfRaces.adapter = adapter
+            }
+            btnSetFavouriteYear.setOnClickListener{
+                val year = Integer.valueOf(spinnerYears.selectedItem.toString())
+                addToFavouriteDb(year)
             }
         }
 
         return binding.root
+    }
+
+    private fun setupViewModel() {
+        val repository = Repository()
+        val application = requireNotNull(this.activity).application
+        val dbDao = FavouriteYearDatabase.getInstance(application).favouriteYearDatabaseDao
+        val viewModelFactory = RacesViewModelFactory(repository,dbDao)
+        viewModel= ViewModelProvider(this,viewModelFactory)[RacesViewModel::class.java]
+    }
+
+    private fun addToFavouriteDb(year: Int) {
+        viewModel.setFavouriteYear(year)
+        Toast.makeText(context, "Added $year to favourite years!",Toast.LENGTH_SHORT).show()
     }
 
     private fun setSpinnerContent(spinnerYears: Spinner) {
@@ -75,9 +92,6 @@ class RacesFragment : Fragment(){
     }
 
     private fun getRaces(year : Int) {
-        val repository = Repository()
-        val viewModelFactory = RacesViewModelFactory(repository)
-        viewModel= ViewModelProvider(this,viewModelFactory)[RacesViewModel::class.java]
         viewModel.getRace(year)
         viewModel.myResponse.observe(viewLifecycleOwner,{ response ->
             if(response.isSuccessful) {

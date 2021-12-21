@@ -1,14 +1,14 @@
 package hu.unideb.inf.f1uptodate.fragments.views
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabaseDao
+import hu.unideb.inf.f1uptodate.database.model.Year
 import hu.unideb.inf.f1uptodate.model.ResponseData
 import hu.unideb.inf.f1uptodate.repository.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class RacesViewModel(private val repository: Repository):ViewModel() {
+class RacesViewModel(private val repository: Repository, private val dbDao: FavouriteYearDatabaseDao):ViewModel() {
 
     val myResponse: MutableLiveData<Response<ResponseData>> = MutableLiveData()
 
@@ -17,5 +17,15 @@ class RacesViewModel(private val repository: Repository):ViewModel() {
             val response = repository.getRace(year)
             myResponse.value = response
         }
+    }
+
+    fun setFavouriteYear(year : Int) {
+        viewModelScope.launch {
+            setFavouriteYearToAccessDao(year)
+        }
+    }
+
+    private suspend fun setFavouriteYearToAccessDao(year: Int) {
+        dbDao.insert(Year(year))
     }
 }

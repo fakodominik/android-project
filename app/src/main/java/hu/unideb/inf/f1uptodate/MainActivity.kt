@@ -8,12 +8,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import hu.unideb.inf.f1uptodate.fragments.AboutFragment
-import hu.unideb.inf.f1uptodate.fragments.HelpFragment
-import hu.unideb.inf.f1uptodate.fragments.RacesFragment
-import hu.unideb.inf.f1uptodate.fragments.WelcomeFragment
 import android.content.Intent
 import android.net.Uri
+import hu.unideb.inf.f1uptodate.fragments.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +55,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_about -> {
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,AboutFragment()).commit()
+                }
+                R.id.nav_favourites -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout, FavouriteFragment()).commit()
                 }
                 R.id.nav_site -> {
                     openUrl(F1URL)
