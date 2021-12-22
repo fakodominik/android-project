@@ -8,28 +8,25 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import android.content.Intent
 import android.net.Uri
-import hu.unideb.inf.f1uptodate.fragments.*
+import android.provider.LiveFolders.INTENT
+import android.widget.Toolbar
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var f1Url : String = "https://www.formula1.com"
     private lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var navController : NavController
+    private lateinit var appBarConfiguration : AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupDrawer()
-        initializeFragment()
-
-    }
-
-    private fun initializeFragment() {
-        supportFragmentManager.beginTransaction().replace(R.id.frame_layout,WelcomeFragment()).commit()
-    }
-
-    private fun setupDrawer() {
         val drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
         val navView : NavigationView = findViewById(R.id.nav_view)
 
@@ -37,46 +34,27 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.helpFragment,
+                R.id.aboutFragment,
+                R.id.racesFragment,
+                R.id.constructorFragment,
+                R.id.championshipFragment,
+            R.id.favouriteFragment,
+            R.id.welcomeFragment), drawerLayout)
 
-        navView.setNavigationItemSelectedListener {
-            drawerLayout.closeDrawers()
-            when(it.itemId) {
-                R.id.nav_races -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,RacesFragment()).commit()
-                }
-                R.id.nav_home -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,WelcomeFragment()).commit()
-                }
-                R.id.nav_help -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,HelpFragment()).commit()
-                }
-                R.id.nav_about -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout,AboutFragment()).commit()
-                }
-                R.id.nav_favourites -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout, FavouriteFragment()).commit()
-                }
-                R.id.nav_championships -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ChampionshipFragment()).commit()
-                }
-                R.id.nav_constructors -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ConstructorFragment()).commit()
-                }
-                R.id.nav_site -> {
-                    openUrl(f1Url)
-                }
-            }
-            true
-        }
+        navController = Navigation.findNavController(this,R.id.frame_layout)
+        NavigationUI.setupWithNavController(navView,navController)
+        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
+
 
     }
 
-    private fun openUrl(url: String?) {
-        if (url != null) {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(browserIntent)
-        }
+    private fun openSite() {
+        val url = "https://www.formula1.com"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -86,5 +64,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(
+            navController,
+            appBarConfiguration
+        )
     }
 }

@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import hu.unideb.inf.f1uptodate.R
 import hu.unideb.inf.f1uptodate.model.constructor.ConstructorResult
+import hu.unideb.inf.f1uptodate.utils.ConstructorDiffUtil
 import kotlinx.android.synthetic.main.row_items_const.view.*
 
 
 class ConstructorAdapter(
-    val context : Context,private val standingsList: List<ConstructorResult>) :
+    val context : Context,private var standingsList: List<ConstructorResult>) :
     RecyclerView.Adapter<ConstructorAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -39,5 +41,13 @@ class ConstructorAdapter(
 
     override fun getItemCount(): Int {
         return standingsList.size
+    }
+
+    fun setData(newList : List<ConstructorResult>) {
+        val diffutil = ConstructorDiffUtil(standingsList,newList)
+        val diffResults = DiffUtil.calculateDiff(diffutil)
+        standingsList = newList
+        diffResults.dispatchUpdatesTo(this)
+
     }
 }

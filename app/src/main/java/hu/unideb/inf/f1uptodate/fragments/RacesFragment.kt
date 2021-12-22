@@ -41,7 +41,12 @@ class RacesFragment : Fragment(){
 
         setupViewModel()
 
+        adapter = RaceAdapter(activity?.baseContext!!, emptyList())
+
+
         binding.apply{
+            rvListOfRaces.adapter = adapter
+
             setSpinnerContent(spinnerYears)
             rvListOfRaces.setHasFixedSize(true)
             linearLayoutManager = LinearLayoutManager(activity)
@@ -49,13 +54,13 @@ class RacesFragment : Fragment(){
             btnGetRaces.setOnClickListener {
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 getRaces(year)
-                adapter = RaceAdapter(activity?.baseContext !!,results)
-                rvListOfRaces.adapter = adapter
+                adapter.setData(results)
             }
             btnSetFavouriteYear.setOnClickListener{
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 addToFavouriteDb(year)
             }
+
         }
 
         return binding.root

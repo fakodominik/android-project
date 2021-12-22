@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import hu.unideb.inf.f1uptodate.R
 import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
+import hu.unideb.inf.f1uptodate.utils.RaceDiffutil
 import kotlinx.android.synthetic.main.row_items.view.*
 
 class RaceAdapter(
-    val context : Context,private val raceList: List<RaceResult>) :
+    val context : Context,private var raceList: List<RaceResult>) :
     RecyclerView.Adapter<RaceAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -39,4 +41,13 @@ class RaceAdapter(
     override fun getItemCount(): Int {
         return raceList.size
     }
+
+    fun setData(newList : List<RaceResult>) {
+        val diffutil = RaceDiffutil(raceList,newList)
+        val diffResults = DiffUtil.calculateDiff(diffutil)
+        raceList = newList
+        diffResults.dispatchUpdatesTo(this)
+
+    }
+
 }

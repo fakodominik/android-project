@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import hu.unideb.inf.f1uptodate.R
 import hu.unideb.inf.f1uptodate.model.championship.ChampionshipResult
+import hu.unideb.inf.f1uptodate.utils.ChampionDiffutil
 import kotlinx.android.synthetic.main.row_items_champ.view.*
 
 class ChampionshipAdapter(
-    val context : Context,private val standingsList: List<ChampionshipResult>) :
+    val context : Context,private var standingsList: List<ChampionshipResult>) :
     RecyclerView.Adapter<ChampionshipAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -38,5 +40,12 @@ class ChampionshipAdapter(
 
     override fun getItemCount(): Int {
         return standingsList.size
+    }
+    fun setData(newList : List<ChampionshipResult>) {
+        val diffutil = ChampionDiffutil(standingsList,newList)
+        val diffResults = DiffUtil.calculateDiff(diffutil)
+        standingsList = newList
+        diffResults.dispatchUpdatesTo(this)
+
     }
 }

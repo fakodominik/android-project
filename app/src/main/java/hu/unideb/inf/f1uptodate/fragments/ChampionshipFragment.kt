@@ -41,7 +41,10 @@ class ChampionshipFragment : Fragment(){
 
         setupViewModel()
 
+        adapter = ChampionshipAdapter(activity?.baseContext !!, emptyList())
+
         binding.apply{
+            rvListOfResult.adapter = adapter
             setSpinnerContent(spinnerYears)
             rvListOfResult.setHasFixedSize(true)
             linearLayoutManager = LinearLayoutManager(activity)
@@ -49,8 +52,7 @@ class ChampionshipFragment : Fragment(){
             btnGetResult.setOnClickListener {
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 getResults(year)
-                adapter = ChampionshipAdapter(activity?.baseContext !!,results)
-                rvListOfResult.adapter = adapter
+                adapter.setData(results)
             }
             btnSetFavouriteYear.setOnClickListener{
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
