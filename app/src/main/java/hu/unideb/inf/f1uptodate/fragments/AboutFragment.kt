@@ -8,10 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import hu.unideb.inf.f1uptodate.R
 import hu.unideb.inf.f1uptodate.databinding.FragmentAboutBinding
-import android.text.method.LinkMovementMethod
-
-import android.text.Html
-import android.widget.TextView
 
 class AboutFragment : Fragment() {
 

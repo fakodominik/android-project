@@ -17,7 +17,6 @@ import hu.unideb.inf.f1uptodate.adapter.ChampionshipAdapter
 import hu.unideb.inf.f1uptodate.adapter.ConstructorAdapter
 import hu.unideb.inf.f1uptodate.adapter.RaceAdapter
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
-import hu.unideb.inf.f1uptodate.database.model.Year
 import hu.unideb.inf.f1uptodate.databinding.FavouriteFragmentBinding
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModel
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModelFactory

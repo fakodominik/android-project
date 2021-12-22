@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import android.content.Intent
 import android.net.Uri
@@ -15,7 +13,7 @@ import hu.unideb.inf.f1uptodate.fragments.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var F1URL : String = "https://www.formula1.com"
+    private var f1Url : String = "https://www.formula1.com"
     private lateinit var toggle : ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ConstructorFragment()).commit()
                 }
                 R.id.nav_site -> {
-                    openUrl(F1URL)
+                    openUrl(f1Url)
                 }
             }
             true

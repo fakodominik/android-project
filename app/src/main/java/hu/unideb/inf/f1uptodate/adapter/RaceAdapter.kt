@@ -12,7 +12,7 @@ import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
 import kotlinx.android.synthetic.main.row_items.view.*
 
 class RaceAdapter(
-    val context : Context, val raceList: List<RaceResult>) :
+    val context : Context,private val raceList: List<RaceResult>) :
     RecyclerView.Adapter<RaceAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -24,7 +24,7 @@ class RaceAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var itemView = LayoutInflater.from(context).inflate(R.layout.row_items, parent, false)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.row_items, parent, false)
         return ViewHolder(itemView)
     }
 

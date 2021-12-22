@@ -57,7 +57,6 @@
             android:id="@+id/rvListOfRaces"
             android:layout_width="409dp"
             android:layout_height="454dp"
-            android:focusable="false"
             app:layout_constraintBottom_toTopOf="@+id/btnSetFavouriteYear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
