@@ -8,32 +8,33 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.unideb.inf.f1uptodate.R
-import hu.unideb.inf.f1uptodate.model.championship.ChampionshipResult
-import kotlinx.android.synthetic.main.row_items_champ.view.*
+import hu.unideb.inf.f1uptodate.model.constructor.ConstructorResult
+import kotlinx.android.synthetic.main.row_items_const.view.*
 
-class ChampionshipAdapter(
-    val context : Context,private val standingsList: List<ChampionshipResult>) :
-    RecyclerView.Adapter<ChampionshipAdapter.ViewHolder>() {
+
+class ConstructorAdapter(
+    val context : Context,private val standingsList: List<ConstructorResult>) :
+    RecyclerView.Adapter<ConstructorAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var position: TextView = itemView.position
-        var driverName: TextView = itemView.driverName
         var points: TextView = itemView.points
-        var constructorName: TextView = itemView.constructor
+        var constructorName: TextView = itemView.constName
+        var wins: TextView = itemView.wins
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.row_items_champ, parent, false)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.row_items_const, parent, false)
         return ViewHolder(itemView)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.position.text = standingsList[position].position
-        holder.driverName.text = standingsList[position].name
         holder.points.text = standingsList[position].points + " points"
-        holder.constructorName.text = "Constructor: " + standingsList[position].constructor
+        holder.constructorName.text = standingsList[position].name
+        holder.wins.text = "Won races: " + standingsList[position].wins
     }
 
     override fun getItemCount(): Int {

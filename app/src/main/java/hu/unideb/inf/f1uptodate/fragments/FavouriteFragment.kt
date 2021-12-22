@@ -7,16 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.unideb.inf.f1uptodate.R
+import hu.unideb.inf.f1uptodate.adapter.ChampionshipAdapter
+import hu.unideb.inf.f1uptodate.adapter.ConstructorAdapter
 import hu.unideb.inf.f1uptodate.adapter.RaceAdapter
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
+import hu.unideb.inf.f1uptodate.database.model.Year
 import hu.unideb.inf.f1uptodate.databinding.FavouriteFragmentBinding
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModel
 import hu.unideb.inf.f1uptodate.fragments.views.FavouriteViewModelFactory
+import hu.unideb.inf.f1uptodate.model.championship.ChampionshipResult
+import hu.unideb.inf.f1uptodate.model.constructor.ConstructorResult
 import hu.unideb.inf.f1uptodate.model.raceresult.RaceResult
 import hu.unideb.inf.f1uptodate.repository.Repository
 
@@ -26,8 +32,10 @@ class FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var favYearsInt: ArrayList<Int>
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: RaceAdapter
     private var raceResults : MutableList<RaceResult> = ArrayList()
+    private var championList : MutableList<ChampionshipResult> = ArrayList()
+    private var constructorList : MutableList<ConstructorResult> = ArrayList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +55,30 @@ class FavouriteFragment : Fragment() {
                 if(spinnerFavYears.selectedItemPosition > -1) {
                     val year = Integer.valueOf(spinnerFavYears.selectedItem.toString())
                     getRaces(year)
-                    setRvContent()
+                    val adapter = RaceAdapter(activity?.baseContext!!, raceResults)
+                    rvList.adapter = adapter
+                }
+            }
+            btnChampionships.setOnClickListener {
+                if(spinnerFavYears.selectedItemPosition > -1) {
+                    val year = Integer.valueOf(spinnerFavYears.selectedItem.toString())
+                    getResults(year)
+                    val adapter = ChampionshipAdapter(activity?.baseContext!!, championList)
+                    rvList.adapter = adapter
+                }
+            }
+            btnConstructors.setOnClickListener {
+                if(spinnerFavYears.selectedItemPosition > -1) {
+                    if((spinnerFavYears.selectedItem as Int) < 1958) {
+                        Toast.makeText(context,"The first Constructors' Championship was awarded in 1958." +
+                                " Select year from that year!",
+                            Toast.LENGTH_LONG).show()
+                    }else {
+                        val year = Integer.valueOf(spinnerFavYears.selectedItem.toString())
+                        getConstructorResults(year)
+                        val adapter = ConstructorAdapter(activity?.baseContext!!, constructorList)
+                        rvList.adapter = adapter
+                    }
                 }
             }
             btnDeleteFavs.setOnClickListener{
@@ -58,16 +89,11 @@ class FavouriteFragment : Fragment() {
         return binding.root
     }
 
-    private fun setRvContent() {
-        adapter = RaceAdapter(activity?.baseContext!!, raceResults)
-        binding.rvList.adapter = adapter
-    }
-
     private fun deleteYears() {
         viewModel.deleteYears()
         setSpinnerContent(binding.spinnerFavYears)
         raceResults = ArrayList()
-        setRvContent()
+        binding.rvList.adapter = null
     }
 
     override fun onStart() {
@@ -118,6 +144,46 @@ class FavouriteFragment : Fragment() {
 
         })
 
+    }
+    private fun getResults(year : Int) {
+        viewModel.getResult(year)
+        viewModel.champResponse.observe(viewLifecycleOwner,{ response ->
+            if(response.isSuccessful) {
+                val standingsList = response.body()?.mrData?.standingsTable?.standingsList?.get(0)
+                championList.clear()
+                for(standings in standingsList?.driverStandingsList !!) {
+                    val position = standings.position
+                    val points = standings.points
+                    val constructor = standings.constructors[0].name
+                    val name = standings.driver.givenName + " " + standings.driver.familyName
+                    championList.add(ChampionshipResult(position,points,name,constructor))
+                }
+
+            } else {
+                Log.d("Response", response.errorBody().toString())
+            }
+
+        })
+    }
+    private fun getConstructorResults(year : Int) {
+        viewModel.getResultConst(year)
+        viewModel.constResponse.observe(viewLifecycleOwner,{ response ->
+            if(response.isSuccessful) {
+                val standingsList = response.body()?.mrData?.standingsTable?.standingsList?.get(0)
+                constructorList.clear()
+                for(standings in standingsList?.constructorStandings !!) {
+                    val position = standings.position
+                    val points = standings.points
+                    val wins = standings.wins
+                    val name = standings.constructors.name
+                    constructorList.add(ConstructorResult(position,points,name,wins))
+                }
+
+            } else {
+                Log.d("Response", response.errorBody().toString())
+            }
+
+        })
     }
 
 }

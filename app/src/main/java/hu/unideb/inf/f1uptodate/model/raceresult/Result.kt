@@ -1,6 +1,7 @@
 package hu.unideb.inf.f1uptodate.model.raceresult
 
 import com.google.gson.annotations.SerializedName
+import hu.unideb.inf.f1uptodate.model.Constructor
 import hu.unideb.inf.f1uptodate.model.Driver
 
 data class Result(

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabaseDao
 import hu.unideb.inf.f1uptodate.database.model.Year
+import hu.unideb.inf.f1uptodate.model.championship.ResponseDataChamp
+import hu.unideb.inf.f1uptodate.model.constructor.ResponseDataConst
 import hu.unideb.inf.f1uptodate.model.raceresult.ResponseData
 import hu.unideb.inf.f1uptodate.repository.Repository
 import kotlinx.coroutines.launch
@@ -14,6 +16,8 @@ class FavouriteViewModel(private val dbDao: FavouriteYearDatabaseDao, private va
     ViewModel() {
 
     val myResponse: MutableLiveData<Response<ResponseData>> = MutableLiveData()
+    val champResponse: MutableLiveData<Response<ResponseDataChamp>> = MutableLiveData()
+    val constResponse: MutableLiveData<Response<ResponseDataConst>> = MutableLiveData()
     var favYearList: MutableLiveData<List<Year>> = MutableLiveData()
 
         fun getFavYears() {
@@ -30,6 +34,18 @@ class FavouriteViewModel(private val dbDao: FavouriteYearDatabaseDao, private va
         viewModelScope.launch {
             val response = repository.getRace(year)
             myResponse.value = response
+        }
+    }
+    fun getResult(year : Int){
+        viewModelScope.launch {
+            val response = repository.getChampionship(year)
+            champResponse.value = response
+        }
+    }
+    fun getResultConst(year : Int){
+        viewModelScope.launch {
+            val response = repository.getConstructors(year)
+            constResponse.value = response
         }
     }
     fun deleteYears(){

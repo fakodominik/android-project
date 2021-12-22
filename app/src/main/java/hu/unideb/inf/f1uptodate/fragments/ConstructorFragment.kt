@@ -17,26 +17,26 @@ import kotlin.collections.ArrayList
 
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import hu.unideb.inf.f1uptodate.adapter.ChampionshipAdapter
+import hu.unideb.inf.f1uptodate.adapter.ConstructorAdapter
 import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
-import hu.unideb.inf.f1uptodate.databinding.FragmentChampionshipBinding
-import hu.unideb.inf.f1uptodate.fragments.views.ChampionshipViewModel
-import hu.unideb.inf.f1uptodate.fragments.views.ChampionshipViewModelFactory
-import hu.unideb.inf.f1uptodate.model.championship.ChampionshipResult
+import hu.unideb.inf.f1uptodate.databinding.FragmentConstructorBinding
+import hu.unideb.inf.f1uptodate.fragments.views.ConstructorViewModel
+import hu.unideb.inf.f1uptodate.fragments.views.ConstructorViewModelFactory
+import hu.unideb.inf.f1uptodate.model.constructor.ConstructorResult
 
-class ChampionshipFragment : Fragment(){
+class ConstructorFragment : Fragment(){
 
-    private lateinit var viewModel: ChampionshipViewModel
-    private lateinit var adapter: ChampionshipAdapter
+    private lateinit var viewModel: ConstructorViewModel
+    private lateinit var adapter: ConstructorAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private var results : MutableList<ChampionshipResult> = ArrayList()
+    private var results : MutableList<ConstructorResult> = ArrayList()
     private var years : MutableList<Int> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding: FragmentChampionshipBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_championship, container, false
+        val binding: FragmentConstructorBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_constructor, container, false
         )
 
         setupViewModel()
@@ -49,7 +49,7 @@ class ChampionshipFragment : Fragment(){
             btnGetResult.setOnClickListener {
                 val year = Integer.valueOf(spinnerYears.selectedItem.toString())
                 getResults(year)
-                adapter = ChampionshipAdapter(activity?.baseContext !!,results)
+                adapter = ConstructorAdapter(activity?.baseContext !!,results)
                 rvListOfResult.adapter = adapter
             }
             btnSetFavouriteYear.setOnClickListener{
@@ -65,8 +65,8 @@ class ChampionshipFragment : Fragment(){
         val repository = Repository()
         val application = requireNotNull(this.activity).application
         val dbDao = FavouriteYearDatabase.getInstance(application).favouriteYearDatabaseDao
-        val viewModelFactory = ChampionshipViewModelFactory(repository,dbDao)
-        viewModel= ViewModelProvider(this,viewModelFactory)[ChampionshipViewModel::class.java]
+        val viewModelFactory = ConstructorViewModelFactory(repository,dbDao)
+        viewModel= ViewModelProvider(this,viewModelFactory)[ConstructorViewModel::class.java]
     }
 
     private fun addToFavouriteDb(year: Int) {
@@ -76,7 +76,7 @@ class ChampionshipFragment : Fragment(){
 
     private fun setSpinnerContent(spinnerYears: Spinner) {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val startYear = 1950
+        val startYear = 1958
 
         for(i in startYear..currentYear) {
             years.add(i)
@@ -97,12 +97,12 @@ class ChampionshipFragment : Fragment(){
             if(response.isSuccessful) {
                 val standingsList = response.body()?.mrData?.standingsTable?.standingsList?.get(0)
                 results.clear()
-                for(standings in standingsList?.driverStandingsList !!) {
+                for(standings in standingsList?.constructorStandings !!) {
                     val position = standings.position
                     val points = standings.points
-                    val constructor = standings.constructors[0].name
-                    val name = standings.driver.givenName + " " + standings.driver.familyName
-                    results.add(ChampionshipResult(position,points,name,constructor))
+                    val wins = standings.wins
+                    val name = standings.constructors.name
+                    results.add(ConstructorResult(position,points,name,wins))
                 }
 
             } else {
