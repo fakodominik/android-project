@@ -1,6 +1,8 @@
 package hu.unideb.inf.f1uptodate.repository
 
 import hu.unideb.inf.f1uptodate.api.RetrofitInstance
+import hu.unideb.inf.f1uptodate.database.FavouriteYearDatabase
+import hu.unideb.inf.f1uptodate.database.model.Year
 import hu.unideb.inf.f1uptodate.model.championship.ResponseDataChamp
 import hu.unideb.inf.f1uptodate.model.constructor.ResponseDataConst
 import hu.unideb.inf.f1uptodate.model.raceresult.ResponseData
